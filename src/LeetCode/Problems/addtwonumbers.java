@@ -1,13 +1,13 @@
 package LeetCode.Problems;
 
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 public class addtwonumbers {
 
     public static void main(String[] arg0){
-        addTwoNumbers(
+       /* addTwoNumbers(
                 new ListNode(9),
                 new ListNode(1,
                         new ListNode(9,
@@ -19,50 +19,43 @@ public class addtwonumbers {
                                                                         new ListNode(9,
                                                                                 new ListNode(9,
                                                                                         new ListNode(9))))))))))
-        );
+        );*/
+       addTwoNumbers(new ListNode(2, new ListNode(4 , new ListNode(3))),new ListNode(5, new ListNode(6 , new ListNode(4))));
     }
 
     static ListNode linkedRes;
 
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        BigInteger num1=BigInteger.valueOf(0);
-        BigInteger num2= BigInteger.valueOf(0);
-        int cont=1;
-        ListNode move= l1;
-        while (move != null){
-            if (move.val==0){
-                cont=cont*10;
-            }else {
-                num1=num1.add(BigInteger.valueOf(move.val*cont));
-                cont=cont*10;
+        ListNode response= new ListNode(0);
+        ListNode pivot=response;
+        Queue<Integer> resp = new LinkedList<Integer>();
+        int sum=0,rest=0;
+        while (l1 != null|| l2 != null){
+            if(l1!=null&&l2!=null){
+                sum=l1.val+l2.val+rest;
+                l1=l1.next;
+                l2=l2.next;
+            }else if(l1==null){
+                sum=l2.val+rest;
+                l2=l2.next;
+            }else if(l2==null){
+                sum=l1.val+rest;
+                l1=l1.next;
             }
-            move = move.next;
-        }
-        cont=1;
-         move= l2;
-        while (move != null){
-            if (move.val==0){
-                cont=cont*10;
-            }else {
-                num2=num2.add(BigInteger.valueOf(move.val*cont));
-                cont=cont*10;
+            rest=0;
+            if(sum>9){
+                rest= sum/10;
+                sum= sum%10;
             }
-            move = move.next;
-        }
-        BigInteger res= num1.add(num2);
-        char[] resinarray= String.valueOf(res).toCharArray();
-        System.out.println(Arrays.toString(resinarray)+" " + num1 + " " +num2);
+            pivot.next= new ListNode(sum);
+            pivot= pivot.next;
 
-        linkedRes = new ListNode( Character.getNumericValue(resinarray[resinarray.length-1]), filllist(resinarray,resinarray.length-2));
-        return linkedRes;
-    }
-
-    public static ListNode filllist(char[] numbers,int cont){
-        if (cont <0){
-            return null;
-        }else {
-            return new ListNode(Character.getNumericValue(numbers[cont]), filllist(numbers,(cont-1)));
         }
+        if (rest>0){
+            pivot.next= new ListNode(rest);
+
+        }
+        return response.next;
     }
 
 } // Definition for singly-linked list.
