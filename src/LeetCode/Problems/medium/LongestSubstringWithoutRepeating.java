@@ -5,17 +5,24 @@ import java.util.HashSet;
 
 public class LongestSubstringWithoutRepeating {
     public static void main(String[] args){
-        lengthOfLongestSubstring("abcabcbb");
+
+        System.out.println(lengthOfLongestSubstring("pwwkew"));
     }
 
     public static int lengthOfLongestSubstring(String s) {
         HashSet characters= new HashSet();
-        for (char letter : s.toCharArray()){
-            if (!characters.contains(letter)){
-                characters.add(letter);
+        int limit=s.length();
+        int i=0, j=0,ans=0;
+        while (i< limit && j < limit){
+            if(!characters.contains(s.charAt(j))){
+                characters.add(s.charAt(j));
+                j++;
+                ans= Math.max(ans, j-i);
+            }else {
+                characters.remove(s.charAt(i));
+                i++;
             }
         }
-        //System.out.println(Arrays.toString(characters.toArray()));
-
+        return ans;
     }
 }
