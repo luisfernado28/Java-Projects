@@ -1,4 +1,4 @@
-package CTCI;
+package CTCI.Arrays;
 
 import java.util.HashSet;
 
